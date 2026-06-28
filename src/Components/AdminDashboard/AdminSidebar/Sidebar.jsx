@@ -33,7 +33,7 @@ export default function Sidebar({
                     showSidebar ? "left-64" : "left-0"
                 }`}
             >
-                {showSidebar ? "◀" : "▶"}
+                {showSidebar ? " ☰" : "☰"}
             </button>
 
             {/* Sidebar */}

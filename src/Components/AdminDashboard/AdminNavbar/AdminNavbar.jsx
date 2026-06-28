@@ -2,8 +2,7 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-import Link from 'next/link';
-import Overview from '../components/Overview';
+import Link from 'next/link'; 
 
 export default function AdminNavbar() {
     const [search, setSearch] = useState("");
@@ -13,12 +12,12 @@ export default function AdminNavbar() {
     const[showProfile, setShowProfile] = useState(false);
     const handleSearch = (e) => {
         e.preventDefault();
-        if (!search.trim()) return;
-        if (search.trim() == Pages || search.trim() === pages) {
-            setSearch("Pages");
-            router.push(`/AdminDashboard/${search}`);
-        }
-        router.push(`/AdminDashboard/${search}`);
+        // if (!search.trim()) return;
+        // if (search.trim() === Pages || search.trim() === pages) {
+        //     setSearch("Pages");
+        //     router.push(`/AdminDashboard/${search}`);
+        // }
+        // router.push(`/AdminDashboard/${search}`);
     };
     const NotificationOnClick = async (e) => {
         e.preventDefault();
