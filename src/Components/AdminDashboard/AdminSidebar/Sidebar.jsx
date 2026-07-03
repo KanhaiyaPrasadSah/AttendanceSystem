@@ -111,22 +111,7 @@ export default function Sidebar({
                                         </button>
 
                                     </li>
-                                    <li>
-
-                                        <button
-                                            onClick={() =>
-                                                setActivePage("listUserAll")
-                                            }
-                                            className={`w-full text-left p-2 rounded ${
-                                                activePage === "listUserAll"
-                                                    ? "bg-blue-100 text-blue-700"
-                                                    : "hover:bg-gray-100"
-                                            }`}
-                                        >
-                                            List of Older User
-                                        </button>
-
-                                    </li>
+                                    
                                     
                                     <li>
 
@@ -140,7 +125,7 @@ export default function Sidebar({
                                                     : "hover:bg-gray-100"
                                             }`}
                                         >
-                                            Add Student/Staff
+                                            Add User
                                         </button>
 
                                     </li>
@@ -164,7 +149,7 @@ export default function Sidebar({
                                 👨‍💼
 
                                 <span className="flex-1 ml-3 text-left">
-                                    Staff
+                                    Employees
                                 </span>
 
                                 <span>
@@ -181,15 +166,15 @@ export default function Sidebar({
 
                                         <button
                                             onClick={() =>
-                                                setActivePage("ListOfEmployees")
+                                                setActivePage("EmployeeDashboard")
                                             }
                                             className={`w-full text-left p-2 rounded ${
-                                                activePage === "listEmployee"
+                                                activePage === "EmployeeDashboard"
                                                     ? "bg-blue-100 text-blue-700"
                                                     : "hover:bg-gray-100"
                                             }`}
                                         >
-                                            List of Staff
+                                            Employee Dashboard
                                         </button>
 
                                     </li>

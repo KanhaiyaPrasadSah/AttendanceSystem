@@ -14,7 +14,7 @@ import About from "./components/About";
 // import Docs from "./components/Docs";
 import Feedback from "./components/Feedback";
 import { UserContext } from "../context/userContext";
-import ListOfAllUser from "./components/ListOfAllUser";
+import EmployeeDashboard from "./components/EmployeeDashboard";
 import axios from "axios";
 
 export default function AdminDashboard() {
@@ -104,7 +104,7 @@ export default function AdminDashboard() {
                 {activePage === "overview" && <Overview />}
 
                 {activePage === "listUser" && <ListOfUser />}
-                {activePage === "listUserAll" && <ListOfAllUser />}
+                {activePage === "EmployeeDashboard" && <EmployeeDashboard />}
 
                 {activePage === "addUser" && <AddUser />}
                 {activePage === "ListOfEmployees" && <ListOfEmployees />}

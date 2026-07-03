@@ -43,11 +43,11 @@ export default function Overview() {
 
      
 
-    const totalUserPresent = users.filter(
+    const totalUserActive = users.filter(
         (user) => user.status === "Active"
     ).length;
      
-    const totalUserAbsent = users.filter(
+    const totalUserInactive = users.filter(
         (user) =>user.status === "Inactive"
     ).length;
     
@@ -87,12 +87,12 @@ export default function Overview() {
 
             {/* Statistics */}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
 
                 <div className="bg-white rounded-xl shadow p-6">
 
                     <h3 className="text-gray-500 text-center">
-                        Total Students
+                        Total Users
                     </h3>
 
                     <h1 className="text-4xl font-bold mt-3 text-center">
@@ -106,11 +106,11 @@ export default function Overview() {
                 <div className="bg-white rounded-xl shadow p-6">
 
                     <h3 className="text-gray-500 text-center">
-                        Total Student Present Today
+                        Total Active Users
                     </h3>
 
                     <h1 className="text-4xl font-bold text-green-600 mt-3 text-center">
-                        {totalUserPresent}
+                        {totalUserActive}
                     </h1>
 
                 </div>
@@ -119,11 +119,11 @@ export default function Overview() {
                 <div className="bg-white rounded-xl shadow p-6 text-center">
 
                     <h3 className="text-gray-500">
-                        Total Student Absent Today
+                        Total Inactive Users
                     </h3>
 
                     <h1 className="text-4xl font-bold text-red-600 mt-3">
-                        {totalUserAbsent}
+                        {totalUserInactive}
                     </h1>
 
                 </div>
