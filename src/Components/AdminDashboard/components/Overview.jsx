@@ -1,13 +1,10 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function Overview() {
 
     const [users, setUsers] = useState([]);
-    const [employees, setEmployees] = useState([]);
-
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -16,20 +13,15 @@ export default function Overview() {
 
             try {
 
-                const [usersRes, employeesRes] = await Promise.all([
-
-                    axios.get(
-                        "https://6a3f6f919b6d371e8380cdd2.mockapi.io/attendance"
-                    ),
-
-                    axios.get(
-                        "https://6a3f6f919b6d371e8380cdd2.mockapi.io/employee"
-                    )
-
-                ]);
-
-                setUsers(usersRes.data);
-                setEmployees(employeesRes.data);
+                 const res = await axios.get("http://localhost:5000/api/employees/",
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem("token")}`,
+                        }
+                    }
+                );
+ 
+                setUsers(res.data);
 
             } catch (error) {
 
@@ -49,19 +41,17 @@ export default function Overview() {
 
     const totalUsers = users.length;
 
-    const totalEmployees = employees.length;
+     
 
-    const totalPresent = users.filter(
-        (user) => user.status === true
+    const totalUserPresent = users.filter(
+        (user) => user.status === "Active"
     ).length;
-
-    const totalAbsent = users.filter(
-        (user) => user.status === false
+     
+    const totalUserAbsent = users.filter(
+        (user) =>user.status === "Inactive"
     ).length;
-
-    const totalLeaveRequest = users.filter(
-        (user) => user.leaveRequest === true
-    ).length;
+    
+ 
 
     if (loading) {
 
@@ -97,87 +87,68 @@ export default function Overview() {
 
             {/* Statistics */}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
 
                 <div className="bg-white rounded-xl shadow p-6">
 
-                    <h3 className="text-gray-500">
-                        Total Users
+                    <h3 className="text-gray-500 text-center">
+                        Total Students
                     </h3>
 
-                    <h1 className="text-4xl font-bold mt-3">
+                    <h1 className="text-4xl font-bold mt-3 text-center">
                         {totalUsers}
                     </h1>
 
                 </div>
 
+             
+
                 <div className="bg-white rounded-xl shadow p-6">
 
-                    <h3 className="text-gray-500">
-                        Total Employees
+                    <h3 className="text-gray-500 text-center">
+                        Total Student Present Today
                     </h3>
 
-                    <h1 className="text-4xl font-bold mt-3">
-                        {totalEmployees}
+                    <h1 className="text-4xl font-bold text-green-600 mt-3 text-center">
+                        {totalUserPresent}
                     </h1>
 
                 </div>
+                
 
-                <div className="bg-white rounded-xl shadow p-6">
-
-                    <h3 className="text-gray-500">
-                       Users Present Today
-                    </h3>
-
-                    <h1 className="text-4xl font-bold text-green-600 mt-3">
-                        {totalPresent}
-                    </h1>
-
-                </div>
-
-                <div className="bg-white rounded-xl shadow p-6">
+                <div className="bg-white rounded-xl shadow p-6 text-center">
 
                     <h3 className="text-gray-500">
-                        Users Absent Today
+                        Total Student Absent Today
                     </h3>
 
                     <h1 className="text-4xl font-bold text-red-600 mt-3">
-                        {totalAbsent}
+                        {totalUserAbsent}
                     </h1>
 
                 </div>
-
-                <div className="bg-white rounded-xl shadow p-6">
-
-                    <h3 className="text-gray-500">
-                       User's Leave Requests
-                    </h3>
-
-                    <h1 className="text-4xl font-bold text-blue-600 mt-3">
-                        {totalLeaveRequest}
-                    </h1>
-
-                </div>
+                 
+ 
 
             </div>
 
             {/* Tables */}
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+            <div className="grid grid-cols-1  gap-4 mt-8">
 
                 {/* Recent Users */}
 
-                <div className="bg-white rounded-xl shadow">
+                <div className="bg-white rounded-xl shadow ">
 
                     <div className="p-5 border-b">
 
                         <h2 className="text-xl font-semibold">
-                            Recent Users
+                            Absentees Students
                         </h2>
 
                     </div>
 
-                    <table className="w-full text-left">
+                    <table className="w-full text-left border border-e-black">
 
                         <thead className="bg-gray-100">
 
@@ -190,41 +161,58 @@ export default function Overview() {
                                 <th className="p-4">
                                     Email
                                 </th>
+                                <th className="p-4">
+                                    EmployeeId
+                                </th>
+                                <th className="p-4">
+                                    Department
+                                </th>
+                                <th className="p-4">
+                                    Monthly Salary
+                                </th>
 
                                 <th className="p-4">
                                     Status
                                 </th>
+                                
 
                             </tr>
 
                         </thead>
 
-                        <tbody>
+                        <tbody>   
 
-                            {users.slice(0, 5).map((user) => (
+                            {users.filter((user) =>user.status === "Inactive")
+                            .map((user) => (
 
                                 <tr
-                                    key={user.id}
+                                    key={user._id}
                                     className="border-t hover:bg-gray-50"
                                 >
 
                                     <td className="p-4">
-                                        {user.name}
+                                        {user.fullName}
                                     </td>
 
                                     <td className="p-4">
                                         {user.email}
                                     </td>
+                                    <td className="p-4">
+                                        {user.employeeId}
+                                    </td>
+                                    <td className="p-4">
+                                        {user.department}
+                                    </td>
+                                    <td className="p-4">
+                                        ${user.monthlySalary.toLocaleString()}
+                                    </td>
 
                                     <td
-                                        className={`p-4 font-semibold ${
-                                            user.status
-                                                ? "text-green-600"
-                                                : "text-red-600"
-                                        }`}
+                                        className={`p-4`}
                                     >
-                                        {user.status ? "Present" : "Absent"}
+                                        {user.status}
                                     </td>
+                                     
 
                                 </tr>
 
@@ -236,70 +224,8 @@ export default function Overview() {
 
                 </div>
 
-                {/* Recent Employees */}
-
-                <div className="bg-white rounded-xl shadow">
-
-                    <div className="p-5 border-b">
-
-                        <h2 className="text-xl font-semibold">
-                            Recent Employees
-                        </h2>
-
-                    </div>
-
-                    <table className="w-full text-left">
-
-                        <thead className="bg-gray-100">
-
-                            <tr>
-
-                                <th className="p-4">
-                                    Employee
-                                </th>
-
-                                <th className="p-4">
-                                    Salary
-                                </th>
-
-                                <th className="p-4">
-                                    Joining Date
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-                        <tbody>
-
-                            {employees.slice(0, 5).map((employee) => (
-
-                                <tr
-                                    key={employee.id}
-                                    className="border-t hover:bg-gray-50"
-                                >
-
-                                    <td className="p-4 font-medium">
-                                        {employee.name}
-                                    </td>
-
-                                    <td className="p-4">
-                                        Rs. {Number(employee.salary).toLocaleString()}
-                                    </td>
-
-                                    <td className="p-4">
-                                        {employee.joining_date}
-                                    </td>
-
-                                </tr>
-
-                            ))}
-
-                        </tbody>
-
-                    </table>
-
-                </div>
+                
+ 
 
             </div>
 

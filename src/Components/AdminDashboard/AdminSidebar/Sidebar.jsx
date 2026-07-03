@@ -95,7 +95,7 @@ export default function Sidebar({
 
                                 <ul className="ml-8 mt-2 space-y-1">
 
-                                    <li>
+                                     <li>
 
                                         <button
                                             onClick={() =>
@@ -107,11 +107,27 @@ export default function Sidebar({
                                                     : "hover:bg-gray-100"
                                             }`}
                                         >
-                                            List of Users
+                                            List of User
                                         </button>
 
                                     </li>
+                                    <li>
 
+                                        <button
+                                            onClick={() =>
+                                                setActivePage("listUserAll")
+                                            }
+                                            className={`w-full text-left p-2 rounded ${
+                                                activePage === "listUserAll"
+                                                    ? "bg-blue-100 text-blue-700"
+                                                    : "hover:bg-gray-100"
+                                            }`}
+                                        >
+                                            List of Older User
+                                        </button>
+
+                                    </li>
+                                    
                                     <li>
 
                                         <button
@@ -124,7 +140,7 @@ export default function Sidebar({
                                                     : "hover:bg-gray-100"
                                             }`}
                                         >
-                                            Add User
+                                            Add Student/Staff
                                         </button>
 
                                     </li>
@@ -148,7 +164,7 @@ export default function Sidebar({
                                 👨‍💼
 
                                 <span className="flex-1 ml-3 text-left">
-                                    Employees
+                                    Staff
                                 </span>
 
                                 <span>
@@ -173,10 +189,12 @@ export default function Sidebar({
                                                     : "hover:bg-gray-100"
                                             }`}
                                         >
-                                            List of Employees
+                                            List of Staff
                                         </button>
 
                                     </li>
+                                   
+
 
                                     {/* <li>
 

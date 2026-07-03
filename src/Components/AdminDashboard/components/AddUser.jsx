@@ -2,51 +2,55 @@
 
 import React, { useState } from "react";
 import axios from "axios";
+import {toast} from "react-toastify";
 
 export default function AddUser() {
 
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
-    const [id, setId] = useState("");
-    const [address, setAddress] = useState("");
-    const [password, setPassword] = useState("");
-
+     
     const handleOnSubmit = async (e) => {
 
         e.preventDefault();
 
         try {
+             
 
+            const userData = {
+
+                employeeId: e.target.EmployeeId.value,
+                fullName: e.target.FullName.value,
+                gender: e.target.Gender.value,
+                contactNumber: e.target.ContactNumber.value,
+                email: e.target.Email.value,
+                address: e.target.Address.value,
+                joiningDate: e.target.JoiningDate.value,
+                department: e.target.Department.value,
+                bankName: e.target.BankName.value,
+                accountNumber: e.target.BankAccountNumber.value,
+                ifscCode: e.target.IfscCode.value,
+                monthlySalary: e.target.MonthlySalary.value,
+            };
+            const token = localStorage.getItem("token");
             const res = await axios.post(
-                "https://6a3cb81cd8e212699e22a82b.mockapi.io/api/v1/register",
+                
+                "http://localhost:5000/api/employees/",
+                userData,
                 {
-                    name,
-                    email,
-                    phoneNumber,
-                    id,
-                    address,
-                    password,
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                 }
             );
 
             console.log(res.data);
 
-            alert("User added successfully.");
-
-            // Clear Form
-            setName("");
-            setEmail("");
-            setPhoneNumber("");
-            setId("");
-            setAddress("");
-            setPassword("");
+            toast.success("User added successfully.");
 
         } catch (error) {
 
-            console.error(error);
-
-            alert("Unable to add user.");
+            if (error.response) {
+                toast.error(error.response.data.message);
+                alert("Empty user details");
+              }  
 
         }
 
@@ -56,14 +60,14 @@ export default function AddUser() {
 
         <div className="min-h-screen bg-gray-100 p-6">
 
-            <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-8">
+            <div className="max-w-5xl mx-auto bg-white rounded-xl shadow-lg p-8">
 
-                <h1 className="text-3xl font-bold text-gray-800 mb-2">
-                    Add User
+                <h1 className="text-3xl font-bold text-gray-800">
+                    Add User / Staff
                 </h1>
 
-                <p className="text-gray-500 mb-8">
-                    Fill in the employee details below.
+                <p className="text-gray-500 mt-2 mb-8">
+                    Fill in the details below.
                 </p>
 
                 <form
@@ -72,126 +76,69 @@ export default function AddUser() {
                 >
 
                     <div>
-                        <label className="block mb-2 font-medium">
-                            Full Name
-                        </label>
-
-                        <input
-                            type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            required
-                            className="w-full border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none"
-                            placeholder="Enter name"
-                        />
+                        <label className="block mb-2 font-medium">Enter Employee Id </label>
+                        <input name="EmployeeId" type="text" placeholder="Enter Employee Id" className="w-full border rounded-lg p-3"/>
                     </div>
-
                     <div>
-                        <label className="block mb-2 font-medium">
-                            Email
-                        </label>
-
-                        <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                            className="w-full border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none"
-                            placeholder="Enter email"
-                        />
+                        <label className="block mb-2 font-medium">Enter Your Full Name </label>
+                        <input name="FullName" type="text" placeholder="Enter Your Full Name" className="w-full border rounded-lg p-3"/>
                     </div>
-
                     <div>
-                        <label className="block mb-2 font-medium">
-                            Phone Number
-                        </label>
-
-                        <input
-                            type="text"
-                            value={phoneNumber}
-                            onChange={(e) => setPhoneNumber(e.target.value)}
-                            required
-                            className="w-full border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none"
-                            placeholder="Enter phone number"
-                        />
+                        <label className="block mb-2 font-medium">Select Your Gender </label>
+                        <select name="Gender" className="w-full border rounded-lg p-3">
+                             
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
                     </div>
-
                     <div>
-                        <label className="block mb-2 font-medium">
-                            Employee ID
-                        </label>
-
-                        <input
-                            type="text"
-                            value={id}
-                            onChange={(e) => setId(e.target.value)}
-                            required
-                            className="w-full border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none"
-                            placeholder="Enter employee ID"
-                        />
+                        <label className="block mb-2 font-medium">Enter Your Contact Number </label>
+                        <input name="ContactNumber" type="text" placeholder="Enter Your Contact Number" className="w-full border rounded-lg p-3"/>
+                    </div>
+                    <div>
+                        <label className="block mb-2 font-medium">Enter Your Email Id </label>
+                        <input name="Email" type="text" placeholder="Enter Your Email Id" className="w-full border rounded-lg p-3"/>
+                    </div>
+                    <div>
+                        <label className="block mb-2 font-medium">Enter Your Address </label>
+                        <input name="Address" type="text" placeholder="Enter Your Address" className="w-full border rounded-lg p-3"/>
+                    </div>
+                    <div>
+                        <label className="block mb-2 font-medium">Enter Joining Date </label>
+                        <input name="JoiningDate" type="Date" placeholder="Enter Joining Date" className="w-full border rounded-lg p-3"/>
+                    </div>
+                    <div>
+                        <label className="block mb-2 font-medium">Enter Your Full Department </label>
+                        <input name="Department" type="text" placeholder="Enter YourDepartment" className="w-full border rounded-lg p-3"/>
+                    </div>
+                    <div>
+                        <label className="block mb-2 font-medium">Enter Your Bank Name </label>
+                        <input name="BankName" type="text" placeholder="Enter Your Bank Name" className="w-full border rounded-lg p-3"/>
+                    </div>
+                    <div>
+                        <label className="block mb-2 font-medium">Enter Your Bank Account Number </label>
+                        <input name="BankAccountNumber" type="text" placeholder="Enter Your Bank Account Number" className="w-full border rounded-lg p-3"/>
+                    </div>
+                    <div>
+                        <label className="block mb-2 font-medium">Enter Your Ifsc code </label>
+                        <input name="IfscCode" type="text" placeholder="Enter Your Ifsc code" className="w-full border rounded-lg p-3"/>
+                    </div>
+                    <div>
+                        <label className="block mb-2 font-medium">Enter Your Monthly Salary </label>
+                        <input name="MonthlySalary" type="text" placeholder="Enter Your Monthly Salary" className="w-full border rounded-lg p-3"/>
                     </div>
 
-                    <div className="md:col-span-2">
-                        <label className="block mb-2 font-medium">
-                            Address
-                        </label>
-
-                        <textarea
-                            rows="3"
-                            value={address}
-                            onChange={(e) => setAddress(e.target.value)}
-                            className="w-full border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none"
-                            placeholder="Enter address"
-                        />
-                    </div>
-
-                    <div className="md:col-span-2">
-                        <label className="block mb-2 font-medium">
-                            Password
-                        </label>
-
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                            className="w-full border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none"
-                            placeholder="Enter password"
-                        />
-                    </div>
-
-                    <div className="md:col-span-2 flex justify-end gap-3 mt-4">
-
-                        <button
-                            type="reset"
-                            onClick={() => {
-
-                                setName("");
-                                setEmail("");
-                                setPhoneNumber("");
-                                setId("");
-                                setAddress("");
-                                setPassword("");
-
-                            }}
-                            className="px-6 py-3 rounded-lg border border-gray-300 hover:bg-gray-100"
-                        >
-                            Reset
-                        </button>
-
-                        <button
-                            type="submit"
-                            className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-                        >
-                            Add User
-                        </button>
-
-                    </div>
+                    <button
+                        type="submit"
+                        className="bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 transition duration-200 max-w-max shadow-md col-span-full md:col-span-1"
+                    >
+                        Add User
+                    </button>
 
                 </form>
 
             </div>
-
         </div>
 
     );

@@ -3,22 +3,30 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function ListOfUser() {
+export default function ListOfAllUser() {
     const [UserDetails, setUserDetails] = useState([]);
 
     // Edit States
     const [editUser, setEditUser] = useState(null);
-    const [editName, setEditName] = useState("");
+    const [editEmployeeId, setEditEmployeeId] = useState("");
+    const [editFullName, setEditFullName] = useState("");
+    const [editGender, setEditGender] = useState("");
     const [editEmail, setEditEmail] = useState("");
-    const [editStatus, setEditStatus] = useState(false);
-    const [editLeaveRequest, setEditLeaveRequest] = useState(false);
-
+    const [editDepartment, setEditDepartment] = useState("");
+    const [editMonthlySalary, setEditMonthlySalary] = useState("");
+    const [editStatus, setEditStatus] = useState("");
+    const token = localStorage.getItem("token");
     // Fetch Users
     useEffect(() => {
         const getUserDetails = async () => {
             try {
                 const res = await axios.get(
-                    "https://6a3f6f919b6d371e8380cdd2.mockapi.io/attendance"
+                    "http://localhost:5000/api/employees/",
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
                 );
 
                 setUserDetails(res.data);
@@ -40,11 +48,16 @@ export default function ListOfUser() {
 
         try {
             await axios.delete(
-                `https://6a3f6f919b6d371e8380cdd2.mockapi.io/attendance/${id}`
+                `http://localhost:5000/api/employees/${id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                }
             );
 
             setUserDetails((prev) =>
-                prev.filter((user) => user.id !== id)
+                prev.filter((user) => user._id !== id)
             );
 
             alert("User deleted successfully.");
@@ -56,10 +69,13 @@ export default function ListOfUser() {
     // Open Edit Form
     const handleEdit = (user) => {
         setEditUser(user);
-        setEditName(user.name);
+        setEditEmployeeId(user.employeeId);
+        setEditFullName(user.fullName);
+        setEditGender(user.gender);
         setEditEmail(user.email);
+        setEditDepartment(user.department);
+        setEditMonthlySalary(user.monthlySalary);
         setEditStatus(user.status);
-        setEditLeaveRequest(user.leaveRequest);
     };
 
     // Update User
@@ -67,20 +83,28 @@ export default function ListOfUser() {
         try {
             const updatedUser = {
                 ...editUser,
-                name: editName,
+                employeeId: editEmployeeId,
+                fullName: editFullName,
+                gender: editGender,
                 email: editEmail,
                 status: editStatus,
-                leaveRequest: editLeaveRequest,
-            };
+                department: editDepartment,
+                monthlySalary: editMonthlySalary, 
 
+            }; 
             await axios.put(
-                `https://6a3f6f919b6d371e8380cdd2.mockapi.io/attendance/${editUser.id}`,
-                updatedUser
+                `http://localhost:5000/api/employees/${editUser._id}`,
+                updatedUser,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                }
             );
 
             setUserDetails((prev) =>
                 prev.map((user) =>
-                    user.id === editUser.id ? updatedUser : user
+                    user._id === editUser._id ? updatedUser : user
                 )
             );
 
@@ -91,6 +115,7 @@ export default function ListOfUser() {
             console.error(error);
         }
     };
+    const totalUser = UserDetails.length;
 
     return (
         <div className="min-h-screen bg-gray-100 p-6">
@@ -104,12 +129,12 @@ export default function ListOfUser() {
                     </h1>
 
                     <p className="text-gray-500 mt-1">
-                        Manage all registered employees.
+                        Manage all registered Users.
                     </p>
                 </div>
 
                 <div className="bg-blue-600 text-white px-4 py-2 rounded-lg">
-                    Total Users : {UserDetails.length}
+                    Total Users : {totalUser}
                 </div>
 
             </div>
@@ -125,51 +150,19 @@ export default function ListOfUser() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-                        <input
-                            type="text"
-                            placeholder="Name"
-                            value={editName}
-                            onChange={(e) =>
-                                setEditName(e.target.value)
-                            }
-                            className="border rounded p-3"
-                        />
+                        <input type="text" placeholder="Enter Employee ID" value={editEmployeeId} onChange={(e) => setEditEmployeeId(e.target.value)} className="border rounded p-3" />
+                        <input type="text" placeholder="Enter Full Name" value={editFullName} onChange={(e) => setEditFullName(e.target.value)} className="border rounded p-3" />
 
-                        <input
-                            type="email"
-                            placeholder="Email"
-                            value={editEmail}
-                            onChange={(e) =>
-                                setEditEmail(e.target.value)
-                            }
-                            className="border rounded p-3"
-                        />
-                    
-                        <select
-                            value={editStatus}
-                            onChange={(e) =>
-                                setEditStatus(
-                                    e.target.value === "true"
-                                )
-                            }
-                            className="border rounded p-3"
-                        >
-                            <option value={true}>Present</option>
-                            <option value={false}>Absent</option>
+                        <select value={editGender} onChange={(e) => setEditGender(e.target.value)} className="border rounded p-3">
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
                         </select>
-
-                        <select
-                            value={editLeaveRequest}
-                            onChange={(e) =>
-                                setEditLeaveRequest(
-                                    e.target.value === "true"
-                                )
-                            }
-                            className="border rounded p-3"
-                        >
-                            <option value={true}>Requested</option>
-                            <option value={false}>No Request</option>
-                        </select>
+                        <input type="text" placeholder="Enter Your Email" value={editEmail} onChange={(e) => setEditEmail(e.target.value)} className="border rounded p-3" />
+                        <input type="text" placeholder="Status of Employee" value={editStatus} onChange={(e) => setEditStatus(e.target.value)} className="border rounded p-3" />
+                        <input type="text" placeholder="Enter Your Department" value={editDepartment} onChange={(e) => setEditDepartment(e.target.value)} className="border rounded p-3" />
+                        <input type="text" placeholder="Enter Your Monthly Salary" value={editMonthlySalary} onChange={(e) => setEditMonthlySalary(e.target.value)} className="border rounded p-3" />
 
                     </div>
 
@@ -204,10 +197,14 @@ export default function ListOfUser() {
 
                         <tr>
                             <th className="p-4">S.N.</th>
-                            <th className="p-4">Name</th>
+                            <th className="p-4">EmployeeId</th>
+
+                            <th className="p-4">Full Name</th>
+                            <th className="p-4">Gender</th>
                             <th className="p-4">Email</th>
+                            <th className="p-4">Department</th>
+                            <th className="p-4">Salary</th>
                             <th className="p-4">Status</th>
-                            <th className="p-4">Leave Request</th>
                             <th className="p-4 text-center">
                                 Actions
                             </th>
@@ -219,80 +216,74 @@ export default function ListOfUser() {
 
                         {UserDetails.length > 0 ? (
 
-                            UserDetails.map((user, index) => (
 
-                                <tr
-                                    key={user.id}
-                                    className="border-t hover:bg-gray-50"
-                                >
+                            UserDetails
+                                .map((user, index) => (
 
-                                    <td className="p-4">
-                                        {index + 1}
-                                    </td>
-
-                                    <td className="p-4 font-medium">
-                                        {user.name}
-                                    </td>
-
-                                    <td className="p-4">
-                                        {user.email}
-                                    </td>
-
-                                    <td
-                                        className={`p-4 font-semibold ${
-                                            user.status
-                                                ? "text-green-600"
-                                                : "text-red-600"
-                                        }`}
+                                    <tr
+                                        key={user._id}
+                                        className="border-t hover:bg-gray-50"
                                     >
-                                        {user.status
-                                            ? "Present"
-                                            : "Absent"}
-                                    </td>
 
-                                    <td className="p-4">
+                                        <td className="p-4">
+                                            {index + 1}
+                                        </td>
+                                        <td className="p-4">
+                                            {user.employeeId}
+                                        </td>
 
-                                        {user.leaveRequest ? (
-                                            <span className="text-blue-600 font-medium">
-                                                Requested
-                                            </span>
-                                        ) : (
-                                            <span className="text-gray-500">
-                                                No
-                                            </span>
-                                        )}
+                                        <td className="p-4 font-medium">
+                                            {user.fullName}
+                                        </td>
 
-                                    </td>
+                                        <td className="p-4">
+                                            {user.gender}
+                                        </td>
+                                        <td className="p-4">
+                                            {user.email}
+                                        </td>
+                                        <td className="p-4">
+                                            {user.department}
+                                        </td>
+                                        <td className="p-4">
+                                            {user.monthlySalary}
+                                        </td>
+                                        <td className="p-4">
+                                            {user.status}
+                                        </td>
 
-                                    <td className="p-4">
 
-                                        <div className="flex justify-center gap-3">
 
-                                            <button
-                                                onClick={() =>
-                                                    handleEdit(user)
-                                                }
-                                                className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600"
-                                            >
-                                                Edit
-                                            </button>
 
-                                            <button
-                                                onClick={() =>
-                                                    handleDelete(user.id)
-                                                }
-                                                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-                                            >
-                                                Delete
-                                            </button>
+                                        <td className="p-4">
 
-                                        </div>
+                                            <div className="flex justify-center gap-3">
 
-                                    </td>
+                                                <button
+                                                    onClick={() =>
+                                                        handleEdit(user)
+                                                    }
+                                                    className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600"
+                                                >
+                                                    Edit
+                                                </button>
 
-                                </tr>
+                                                <button
+                                                    onClick={() =>
+                                                        handleDelete(user._id)
+                                                    }
+                                                    className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                                                >
+                                                    Delete
+                                                </button>
 
-                            ))
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+
+                                ))
 
                         ) : (
 

@@ -1,76 +1,120 @@
-"use client"
-import React, { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { UserContext } from '../context/userContext'
-import { useRouter } from 'next/navigation'
-export default function employee() {
+"use client";
 
-  const [checkedIn, setCheckedIn] = useState("");
-  const [status, setStatus] = useState("");
-  const now = new Date();
-  const todaysDate = now.toLocaleDateString("es-US", { year: "numeric", month: "long", day: "numeric" });
-  let activeEmployee = false;
+import React, { useContext, useState } from "react";
+import { useRouter } from "next/navigation";
+import { UserContext } from "../context/userContext";
 
+import EmployeeProfile from "./EmployeeProfile";
+import AttendanceCard from "./AttendanceCard";
+import LeaveRequestCard from "./LeaveRequestCard";
+import EditProfileModal from "./EditProfileModal";
 
-  useEffect(() => {
-    let storedData = localStorage.getItem("attendanceSheet");
-    if (storedData) {
-     storedData = JSON.parse(storedData);
-      if (storedData.todaysDate === todaysDate  ) {
-        activeEmployee = true;
-      }
-    }
+export default function Employee() {
 
-    if (activeEmployee) {
-      setCheckedIn("true");
-      setStatus("present");
-    }
-    else {
-      setCheckedIn("false");
-      setStatus("Absent");
-    }
-  }, [])
+    const router = useRouter();
 
-  const handleOnMarkedAttendance = (e) => {
-    e.preventDefault();
-     
-    if(status === "Absent") {
-      console.log("marked attendance.");
-      let userdetails = localStorage.getItem("user")
-      userdetails = JSON.parse(userdetails)
-      console.log(userdetails)
-      let empId = userdetails.empId;
-      let updatedDetails = {
-        todaysDate,
-        empId
-      }
-      localStorage.setItem("attendanceSheet",JSON.stringify(updatedDetails));
-       setStatus("Present");
-    }
-      
-    else {
-      console.log(`already marked`);
-    }
-  }
-  return (
-    <>
-      <div className='flex object-bottom-right'>
-        <Link
-        href ="/Login"
-        className='bg-red-500 font-bold'> LogOut
-        </Link>
-      </div>
+    const { user, setUser } = useContext(UserContext);
 
-      <div className=' flex flex-col items-center bg-center'>
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-      <form onSubmit={handleOnMarkedAttendance} className='flex flex-col bg-blue-300 h-[80%] w=auto mt-60 mb-60 p-5 bg-cover rounded-3xl bg-center'>
-        <h1 className='text-3xl font-bold'>Mark Your Attendance</h1>
-        <p >Clicking the below button will mark your attendance.</p>
-        <button type="Submit" className='bg-blue-700 flex flex-col mt-3 rounded-4xl'>Click to Mark Attendance</button>
-        <p className='flex flex-col item-center text-center'>Status: {status}</p>
-      </form>
-    </div>
-    </>
-    
-  )
+    const handleLogout = () => {
+
+        setUser(null);
+
+        router.push("/Login");
+
+    };
+
+    // if (!user) {
+
+    //     return (
+
+    //         <div className="min-h-screen flex justify-center items-center">
+
+    //             <h1 className="text-2xl font-bold text-red-600">
+
+    //                 Please Login First
+
+    //             </h1>
+
+    //         </div>
+
+    //     );
+
+    // }
+
+    return (
+
+        <div className="min-h-screen bg-gray-100">
+
+            {/* Header */}
+
+            <div className="bg-blue-700 text-white px-8 py-5 shadow">
+
+                <div className="max-w-7xl mx-auto flex justify-between items-center">
+
+                    <div>
+
+                        <h1 className="text-3xl font-bold">
+
+                            Employee Dashboard
+
+                        </h1>
+
+                        <p className="text-blue-100 mt-1">
+
+                            Welcome, {user.name}
+
+                        </p>
+
+                    </div>
+
+                    <div className="flex gap-3">
+
+                        <button
+                            onClick={() => setIsModalOpen(true)}
+                            className="bg-yellow-500 hover:bg-yellow-600 px-5 py-2 rounded-lg font-semibold"
+                        >
+                            Edit Profile
+                        </button>
+
+                        <button
+                            onClick={handleLogout}
+                            className="bg-red-600 hover:bg-red-700 px-5 py-2 rounded-lg font-semibold"
+                        >
+                            Logout
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+         
+
+            <div className="grid md:grid-cols-1 xl:grid-cols-2 max-w-5xl mx-auto p-6 space-y-8">
+
+                 
+
+                <AttendanceCard />
+ 
+
+                <LeaveRequestCard />
+
+            </div>
+
+            
+
+            <EditProfileModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                user={user}
+                setUser={setUser}
+            />
+
+        </div>
+
+    );
+
 }
