@@ -40,23 +40,23 @@ export default function ListOfAllUser() {
     }
   };
 
-  // const handleStatus = (index, value) => {
-  //   setAttendance((prev) =>
-  //     prev.map((item, i) =>
-  //       i === index ? { ...item, status: value } : item
-  //     )
-  //   );
-  // };
+  const handleStatus = (index, value) => {
+    setAttendance((prev) =>
+      prev.map((item, i) =>
+        i === index ? { ...item, status: value } : item
+      )
+    );
+  };
 
-  // const handleOvertime = (index, value) => {
-  //   setAttendance((prev) =>
-  //     prev.map((item, i) =>
-  //       i === index
-  //         ? { ...item, overtimeHours: Number(value) }
-  //         : item
-  //     )
-  //   );
-  // };
+  const handleOvertime = (index, value) => {
+    setAttendance((prev) =>
+      prev.map((item, i) =>
+        i === index
+          ? { ...item, overtimeHours: Number(value) }
+          : item
+      )
+    );
+  };
 
   const markAttendance = async () => {
     try {
@@ -135,9 +135,9 @@ export default function ListOfAllUser() {
 
               <td className="border p-2">
                 <select
-                  value={status}
+                  value={emp.status}
                   onChange={(e) =>
-                    setStatus(e.target.value)
+                    handleStatus(index, e.target.value)
                   }
                   className="border rounded p-1 w-full"
                 >
@@ -155,8 +155,8 @@ export default function ListOfAllUser() {
                 <input
                   type="number"
                   min="0"
-                  value={overtimeHours}
-                  onChange={(e) => setOvertimeHours(e.target.value)}
+                  value={emp.overtimeHours}
+                  onChange={(e) => handleOvertimeHours(index, e.target.value)}
                   className="border rounded p-1 w-20"
                 />
               </td>
