@@ -134,11 +134,11 @@ export default function Overview() {
 
             {/* Tables */}
 
-            <div className="grid grid-cols-1  gap-4 mt-8">
+            <div className="overflow-x-auto grid grid-cols-1  gap-4 mt-8">
 
                 {/* Recent Users */}
 
-                <div className="bg-white rounded-xl shadow ">
+                <div className="bg-white overflow-x-auto rounded-xl shadow ">
 
                     <div className="p-5 border-b">
 
@@ -148,7 +148,7 @@ export default function Overview() {
 
                     </div>
 
-                    <table className="w-full text-left border border-e-black">
+                    <table className="overflow-x-auto w-full text-left border border-e-black">
 
                         <thead className="bg-gray-100">
 

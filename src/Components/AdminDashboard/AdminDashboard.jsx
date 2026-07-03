@@ -8,10 +8,10 @@ import Sidebar from "./AdminSidebar/Sidebar";
 import Overview from "./components/Overview";
 import ListOfUser from "./components/ListOfUser";
 import AddUser from "./components/AddUser";
-import ListOfEmployees from "./components/ListOfEmployees";
-// import EditUser from "./components/EditUser";
+ 
+import Reports from "./components/Reports";
 import About from "./components/About";
-// import Docs from "./components/Docs";
+ 
 import Feedback from "./components/Feedback";
 import { UserContext } from "../context/userContext";
 import EmployeeDashboard from "./components/EmployeeDashboard";
@@ -19,49 +19,9 @@ import axios from "axios";
 
 export default function AdminDashboard() {
     const { user, setUser } = useContext(UserContext);
-    //  if (!user) {
-
-    //     return (
-
-    //         <div className="min-h-screen flex justify-center items-center">
-
-    //             <h1 className="text-2xl font-bold text-red-600">
-
-    //                 Please Login First
-
-    //             </h1>
-
-    //         </div>
-
-    //     );
-
-    // }
+     
     useEffect(() => {
-        // const verifyToken = async () => {
-        //     const token = localStorage.getItem("token");
-
-        //     if (!token) {
-        //         router.push("/");
-        //         return;
-        //     }
-
-        //     try {
-        //         await axios.get("http://localhost:5000/api/auth/setup-check", {
-        //             headers: {
-        //                 Authorization: `Bearer ${token}`,
-        //             },
-        //         });
-
-        //         console.log("Token verified");
-        //     } catch (error) {
-        //         console.log("Invalid token");
-
-        //         localStorage.removeItem("token");
-        //         router.push("/");
-        //     }
-        // };
-
-        // verifyToken();
+         
         const employees = async() =>{
         
                 const token = localStorage.getItem("token");
@@ -97,7 +57,7 @@ export default function AdminDashboard() {
 
             {/* Main Content */}
             <main
-                className={`p-4 pt-20 transition-all duration-300 ${showSidebar ? "md:ml-64" : "ml-0"
+                className={`p-4 pt-20 transition-all duration-300 overflow-x-auto ${showSidebar ? "md:ml-64" : "ml-0"
                     }`}
             >
 
@@ -107,9 +67,7 @@ export default function AdminDashboard() {
                 {activePage === "EmployeeDashboard" && <EmployeeDashboard />}
 
                 {activePage === "addUser" && <AddUser />}
-                {activePage === "ListOfEmployees" && <ListOfEmployees />}
-
-
+                {activePage === "reports" && <Reports />}
                 {activePage === "about" && <About />}
 
 

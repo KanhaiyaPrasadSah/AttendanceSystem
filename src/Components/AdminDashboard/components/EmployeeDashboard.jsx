@@ -167,7 +167,7 @@ export default function EmployeeDashboard() {
           className="border rounded p-2"
         />
       </div>
-      <table className="w-full border border-gray-300">
+      <table className="overflow-x-auto w-full border border-gray-300">
         <thead className="bg-gray-200">
           <tr>
             <th className="border p-2">Employee ID</th>

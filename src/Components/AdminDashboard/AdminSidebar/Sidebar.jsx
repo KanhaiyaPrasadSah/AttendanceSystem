@@ -203,6 +203,27 @@ export default function Sidebar({
                             )}
 
                         </li>
+                        {/* =========================Reports======================== */}
+                        <li>
+
+                            <button
+                                onClick={() => setActivePage("reports")}
+                                className={`w-full flex items-center p-2 rounded-lg ${
+                                    activePage === "reports"
+                                        ? "bg-blue-100 text-blue-700"
+                                        : "hover:bg-gray-100"
+                                }`}
+                            >
+                                ℹ️
+
+                                <span className="ml-3">
+                                    Reports
+                                </span>
+
+                            </button>
+
+                        </li>
+                        
 
                         {/* ================= About ================= */}
 
