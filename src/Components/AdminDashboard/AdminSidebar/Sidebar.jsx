@@ -20,9 +20,9 @@ export default function Sidebar({
 
             <button
                 onClick={() => setShowSidebar(!showSidebar)}
-                className="fixed top-12 left-4 z-50 p-2 bg-white rounded-lg shadow-lg md:hidden"
+                className={`fixed top-12 left-4 z-50 p-2 bg-white rounded-lg shadow-lg md:hidden transition-all ${showSidebar? "left-64": "left-0"}`}
             >
-                ☰ Menu
+                ☰ 
             </button>
 
             {/* Desktop Toggle Button */}

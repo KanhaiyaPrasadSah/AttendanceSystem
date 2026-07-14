@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react'
 import axios from 'axios';
-import { Calendar, Search, X, ChevronUp, ChevronDown } from "lucide-react";
+import { Calendar, Search, X, ChevronUp, ChevronDown, Sheet } from "lucide-react";
+import * as XLSX from "xlsx";
 
 // Wraps the portion of `text` that matches `term` in a <mark> tag
 function HighlightText({ text, term }) {
@@ -135,18 +136,30 @@ export default function Reports() {
         setSearchTerm("");
         setCurrentMatchIndex(0);
     };
-
     const hasActiveFilter = startDate || endDate;
+     
+
+ 
+    const downloadFile = () => {
+        const table = document.getElementById("user-table");
+        const workbook = XLSX.utils.table_to_book(table,{ sheet: "Reports"});
+        XLSX.writeFile(workbook,"Report.xlsx");
+    };
 
     return (
         <div className="min-h-screen bg-slate-50 p-6 sm:p-10">
             <div className="mx-auto max-w-6xl">
-                <header className="mb-6">
-                    <h1 className="text-2xl font-semibold text-slate-900">Users</h1>
-                    <p className="mt-1 text-sm text-slate-500">
-                        Filter the list by the date each user joined, or search for a specific person.
-                    </p>
-                </header>
+                <div className="flex justify-between items-center mb-6">
+                    <header className="mb-6">
+                        <h1 className="text-2xl font-semibold text-slate-900">Users</h1>
+                        <p className="mt-1 text-sm text-slate-500">
+                            Filter the list by the date each user joined, or search for a specific person.
+                        </p>
+                    </header>
+                    <button onClick={downloadFile} className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">
+                        Download
+                    </button>
+                </div>
 
                 {/* Search bar */}
                 <div className="mb-4 flex max-w-2xl items-center gap-3 rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
@@ -250,7 +263,7 @@ export default function Reports() {
 
                 {/* Table */}
                 <div className="overflow-hidden overflow-x-auto rounded-lg border border-slate-200 bg-white shadow-sm max-w-auto">
-                    <table className="w-full text-left text-sm">
+                    <table id="user-table" className="w-full text-left text-sm">
                         <thead className="bg-slate-100 text-xs uppercase tracking-wide text-slate-500">
                             <tr>
                                 <th className="px-4 py-3 font-medium">Name</th>
@@ -274,10 +287,10 @@ export default function Reports() {
                                                 rowRefs.current[user._id] = node;
                                             }}
                                             className={`transition ${isActive
-                                                    ? "bg-indigo-50 ring-1 ring-inset ring-indigo-300"
-                                                    : isMatched
-                                                        ? "bg-yellow-50 hover:bg-yellow-100"
-                                                        : "hover:bg-slate-50"
+                                                ? "bg-indigo-50 ring-1 ring-inset ring-indigo-300"
+                                                : isMatched
+                                                    ? "bg-yellow-50 hover:bg-yellow-100"
+                                                    : "hover:bg-slate-50"
                                                 }`}
                                         >
                                             <td className="px-4 py-3 font-medium text-slate-800">

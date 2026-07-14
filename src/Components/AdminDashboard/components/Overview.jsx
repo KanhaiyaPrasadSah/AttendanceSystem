@@ -134,7 +134,7 @@ export default function Overview() {
 
             {/* Tables */}
 
-            <div className="overflow-x-auto grid grid-cols-1  gap-4 mt-8">
+            <div className="overflow-x-auto grid grid-cols-1  gap-4 mt-8 ">
 
                 {/* Recent Users */}
 
@@ -143,7 +143,7 @@ export default function Overview() {
                     <div className="p-5 border-b">
 
                         <h2 className="text-xl font-semibold">
-                            Absentees Students
+                            Inactive Users
                         </h2>
 
                     </div>
