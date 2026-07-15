@@ -63,7 +63,7 @@ export default function AddUser() {
             <div className="max-w-5xl mx-auto bg-white rounded-xl shadow-lg p-8">
 
                 <h1 className="text-3xl font-bold text-gray-800">
-                    Add User / Staff
+                    Add User 
                 </h1>
 
                 <p className="text-gray-500 mt-2 mb-8">
@@ -131,7 +131,7 @@ export default function AddUser() {
 
                     <button
                         type="submit"
-                        className="bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 transition duration-200 max-w-max shadow-md col-span-full md:col-span-1"
+                        className="bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 duration-200 max-w-max shadow-md col-span-full md:col-span-1"
                     >
                         Add User
                     </button>

@@ -72,9 +72,9 @@ export default function Login() {
   return (
     <div className="bg-[url('https://png.pngtree.com/thumb_back/fh260/background/20190221/ourmid/pngtree-blue-blue-background-sign-in-attendance-wall-image_22083.jpg')] bg-cover bg-center h-screen w-full flex items-center justify-center">
 
-      <form onSubmit={handleOnSubmit} className='flex flex-col items-center justify-center bg-white p-10 rounded-lg shadow-lg max-w-sm w-full mx-4'>
-        <h1 className='font-bold text-3xl mb-8 text-gray-800'>Login</h1>
-
+      <form onSubmit={handleOnSubmit} className='flex flex-col justify-center bg-white p-10 rounded-lg shadow-lg max-w-sm w-full mx-4'>
+        <h1 className='font-bold text-3xl mb-2 text-gray-800 text-center'>Login Form</h1>
+        <label className='font-bold p-3'>Enter Your Name</label>
         <input
           name="name"
           type="text"
@@ -85,7 +85,7 @@ export default function Login() {
         />
 
 
-
+        <label className='font-bold p-3'>Enter Your Password</label>
         <input
           name="password"
           type="password"
